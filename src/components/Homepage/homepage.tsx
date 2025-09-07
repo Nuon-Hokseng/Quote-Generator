@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useState } from "react";
 import Button from "../UI/Button";
@@ -10,20 +11,22 @@ type Quote = {
 export default function Homepage() {
   const [quote, setQuote] = useState<Quote | null>(null);
   const [error, setError] = useState<string | null>(null);
-
+  const [fetching, setFetching] = useState(false);
   async function generateQuote() {
+    if (fetching) return;
+    setFetching(true);
     setError(null);
+
     try {
       const res = await fetch("/api/random");
-      if (!res.ok) {
-        throw new Error("No quotes available.");
-      }
+      if (!res.ok) throw new Error("No quotes available.");
       const data = await res.json();
       setQuote(data);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Failed to fetch quote.");
       setQuote(null);
+    } finally {
+      setFetching(false);
     }
   }
 
@@ -38,13 +41,18 @@ export default function Homepage() {
         ) : quote ? (
           <>
             <p className="text-xl font-semibold">&quot;{quote.quote}&quot;</p>
-            <p className="mt-2"><span className="font-bold text-red-900">Author</span> - {quote.author}</p>
+            <p className="mt-2">
+              <span className="font-bold text-red-900">Author</span> -{" "}
+              {quote.author}
+            </p>
           </>
         ) : (
           <p>Click the button to fetch a quote.</p>
         )}
       </div>
-      <Button onClick={generateQuote}>Generate Quote</Button>
+      <Button onClick={generateQuote} disabled={fetching}>
+        {fetching ? "Loading..." : "Generate Quote"}
+      </Button>
       <footer className="mt-12 text-sm text-white/70">
         Made by <span className="text-red-900">♥</span> Nuon Hokseng
       </footer>

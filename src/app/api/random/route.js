@@ -1,16 +1,19 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma"
 
 export async function GET() {
-  const count = await prisma.myQuote.count();
-  if (count === 0) return new Response("No quotes", { status: 404 });
+  try {
+    // Atomic random fetch
+    const randomQuote = await prisma.$queryRaw`
+      SELECT quote, author FROM "myQuote" ORDER BY RANDOM() LIMIT 1
+    `
 
-  const skip = Math.floor(Math.random() * count);
+    if (!randomQuote || randomQuote.length === 0) {
+      return new Response("No quotes found", { status: 404 })
+    }
 
-  const randomQuote = await prisma.myQuote.findFirst({
-    skip,
-    select: { quote: true, author: true },
-  });
-
-  return Response.json(randomQuote);
+    return Response.json(randomQuote[0])
+  } catch (err) {
+    console.error("Failed to fetch quote:", err)
+    return new Response("Failed to fetch quote", { status: 500 })
+  }
 }
