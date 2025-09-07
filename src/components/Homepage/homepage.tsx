@@ -40,8 +40,8 @@ export default function Homepage() {
           <p>{error}</p>
         ) : quote ? (
           <>
-            <p className="text-xl font-semibold">&quot;{quote.quote}&quot;</p>
-            <p className="mt-2">
+            <p className="text-sm xl:text-xl font-semibold">&quot;{quote.quote}&quot;</p>
+            <p className="mt-2 text-sm xl:text-xl ">
               <span className="font-bold text-red-900">Author</span> -{" "}
               {quote.author}
             </p>
