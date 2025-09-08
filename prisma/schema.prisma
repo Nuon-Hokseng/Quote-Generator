@@ -12,4 +12,23 @@ model myQuote {
   id        Int    @id @default(autoincrement())
   quote     String
   author    String
+  savedBy   saved_quotes[]   // relation
+}
+
+model profiles {
+  id        String @id @default(uuid())
+  email     String @unique
+  username  String
+  saved     saved_quotes[]
+}
+
+model saved_quotes {
+  id        String @id @default(uuid())
+  profileId String
+  quoteId   String
+
+  profile profiles @relation(fields: [profileId], references: [id])
+  quote   myQuote  @relation(fields: [quoteId], references: [id])
+
+  @@unique([profileId, quoteId])
 }
