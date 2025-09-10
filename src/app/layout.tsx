@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Quote Generator Website",
   description: "A simple quote generator website built with Next.js and TypeScript.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
