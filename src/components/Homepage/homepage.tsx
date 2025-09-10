@@ -85,7 +85,7 @@ export default function Homepage() {
               <Button_auth onClick={handleLogout}>Log out</Button_auth>
             </div>
           )}
-      <h1 className="text-4xl font-bold mb-8 tracking-wide drop-shadow-lg">
+      <h1 className="text-2xl xl:text-4xl font-bold mb-8 tracking-wide drop-shadow-lg">
         Quote Generator
       </h1>
 
@@ -94,9 +94,9 @@ export default function Homepage() {
           <p>{error}</p>
         ) : quote ? (
           <>
-            <p className="text-xl font-semibold">&quot;{quote.quote}&quot;</p>
+            <p className="text:sm xl:text-xl font-semibold">&quot;{quote.quote}&quot;</p>
             <p className="mt-2">
-              <span className="font-bold text-red-900">Author</span> -{" "}
+              <span className="text:sm xl:text-xl font-bold text-red-900">Author</span> -{" "}
               {quote.author || "Unknown"}
             </p>
             <div className="mt-4">
