@@ -8,27 +8,26 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model myQuote {
-  id        Int    @id @default(autoincrement())
-  quote     String
-  author    String
-  savedBy   saved_quotes[]   // relation
-}
 
 model profiles {
-  id        String @id @default(uuid())
-  email     String @unique
+  id        String        @id @default(uuid())
+  email     String        @unique
   username  String
   saved     saved_quotes[]
 }
 
+model myQuote {
+  id        String        @id @default(uuid())
+  quote     String
+  author    String
+  saved     saved_quotes[]
+}
+
 model saved_quotes {
-  id        String @id @default(uuid())
-  profileId String
-  quoteId   String
+  id        String   @id @default(uuid())
+  profileid String
+  quoteid   String
 
-  profile profiles @relation(fields: [profileId], references: [id])
-  quote   myQuote  @relation(fields: [quoteId], references: [id])
-
-  @@unique([profileId, quoteId])
+  profile   profiles @relation(fields: [profileid], references: [id])
+  quote     myQuote  @relation(fields: [quoteid], references: [id])
 }

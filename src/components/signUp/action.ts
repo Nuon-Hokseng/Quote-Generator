@@ -9,7 +9,7 @@ export async function signup(formData: FormData) {
   };
 
   if (
-    ["vathana", "vong vathana", "Vong Vathana", "Vathana"].includes(
+    ["vathana", "vong vathana", "Vong Vathana", "Vathana", "vath", "Vath"].includes(
       data.username
     )
   ) {
@@ -29,10 +29,6 @@ export async function signup(formData: FormData) {
     return { success: false, message: authError.message };
   }
   if (authData.user) {
-    // function uuidToInt(uuid: string): number {
-    //   return parseInt(uuid.replace(/-/g, "").substring(0, 8), 16);
-    // }
-    // const intId = uuidToInt(authData.user.id);
     const { error: dbError } = await supabase.from("profiles").insert([
       {
         id: authData.user.id,
@@ -46,7 +42,6 @@ export async function signup(formData: FormData) {
     }
   }
 
-  // Auto-login and redirect to home
   return {
     success: true,
     message: "Signup successful! You are now logged in.",

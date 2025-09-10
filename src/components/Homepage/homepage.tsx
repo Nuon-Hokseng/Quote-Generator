@@ -19,13 +19,9 @@ export default function Homepage() {
   const [showSignInPrompt, setShowSignInPrompt] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
-  const handleLogout = async () => {
-    const { createClient } = await import("../../../utils/client");
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    setIsSignedIn(false);
-  };
-
+  const [profileData, setProfileData] = useState<{ username: string } | null>(
+    null
+  );
   React.useEffect(() => {
     async function checkAuth() {
       const { createClient } = await import("../../../utils/client");
@@ -35,9 +31,31 @@ export default function Homepage() {
       } = await supabase.auth.getSession();
       setIsSignedIn(!!session?.user);
       setAuthLoading(false);
+
+      // Fetch profile data if signed in
+      if (session?.user) {
+        const { data: profile, error } = await supabase
+          .from("profiles")
+          .select("username")
+          .eq("id", session.user.id)
+          .single();
+        if (profile && !error) {
+          setProfileData(profile);
+        } else {
+          setProfileData(null);
+        }
+      } else {
+        setProfileData(null);
+      }
     }
     checkAuth();
   }, []);
+  const handleLogout = async () => {
+    const { createClient } = await import("../../../utils/client");
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setIsSignedIn(false);
+  };
 
   async function generateQuote() {
     if (fetching) return;
@@ -156,9 +174,16 @@ export default function Homepage() {
         {fetching ? "Loading..." : "Generate Quote"}
       </Button>
       <br />
-      <span className="text-sm text-white/70">
-        Wanna save your favourite quotes?
-      </span>
+      <br />
+      {isSignedIn && profileData?.username ? (
+        <span className="text-lg font-semibold bg-white  bg-clip-text text-transparent drop-shadow">
+          Hello {profileData.username}, Motivate your day with our quotes!
+        </span>
+      ) : (
+        <span className="text-sm text-white/70">
+          Wanna save your favourite quotes?
+        </span>
+      )}
       <div className="mt-2 flex gap-2">
         {authLoading ? (
           <span className="text-white/70 text-sm">

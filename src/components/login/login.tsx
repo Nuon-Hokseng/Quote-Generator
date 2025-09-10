@@ -17,7 +17,7 @@ export default function Homepage() {
         router.push("/");
       }, 3000);
     } else {
-      setMessage(`Error: ${result.message}`);
+      setMessage(`${result.message}`);
     }
   }
   return (

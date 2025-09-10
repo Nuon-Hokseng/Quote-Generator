@@ -24,7 +24,6 @@ export async function createClient() {
     }
   );
 
-  // Listen for auth state changes (including token refresh)
   supabase.auth.onAuthStateChange((event, session) => {
   });
 

@@ -2,15 +2,17 @@ import prisma from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const randomQuote = await prisma.$queryRawUnsafe(
-      'SELECT quote, author FROM "myQuote" ORDER BY RANDOM() LIMIT 1'
-    );
-
-    if (!randomQuote || randomQuote.length === 0) {
+    const count = await prisma.myQuote.count();
+    if (count === 0) {
       return new Response("No quotes found", { status: 404 });
     }
-
-    return Response.json(randomQuote[0]);
+    const skip = Math.floor(Math.random() * count);
+    const randomQuoteArr = await prisma.myQuote.findMany({
+      skip,
+      take: 1,
+      select: { quote: true, author: true },
+    });
+    return Response.json(randomQuoteArr[0]);
   } catch (err) {
     console.error("Failed to fetch quote:", err);
     return new Response("Failed to fetch quote", { status: 500 });

@@ -21,6 +21,7 @@ export default function Homepage() {
       setMessage(`Signup failed: ${result.message}`);
     }
   }
+  
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-yellow-300 via-pink-400 to-red-500 text-white font-sans transition-all duration-500">
       <h1 className="text-4xl font-bold mb-8 tracking-wide drop-shadow-lg">
