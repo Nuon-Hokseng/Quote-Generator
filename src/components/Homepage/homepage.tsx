@@ -176,7 +176,7 @@ export default function Homepage() {
       <br />
       <br />
       {isSignedIn && profileData?.username ? (
-        <span className="text-lg font-semibold bg-white  bg-clip-text text-transparent drop-shadow">
+        <span className="text-sm xl:text-lg font-semibold bg-white  bg-clip-text text-transparent drop-shadow justify-center text-center ">
           Hello {profileData.username}, Motivate your day with our quotes!
         </span>
       ) : (
