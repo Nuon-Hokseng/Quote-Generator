@@ -24,7 +24,7 @@ export default function Homepage() {
   );
   React.useEffect(() => {
     async function checkAuth() {
-      const { createClient } = await import("../../../utils/client");
+      const { createClient } = await import("../../../utils/supabase/client");
       const supabase = createClient();
       const {
         data: { session },
@@ -51,7 +51,7 @@ export default function Homepage() {
     checkAuth();
   }, []);
   const handleLogout = async () => {
-    const { createClient } = await import("../../../utils/client");
+    const { createClient } = await import("../../../utils/supabase/client");
     const supabase = createClient();
     await supabase.auth.signOut();
     setIsSignedIn(false);
@@ -85,6 +85,7 @@ export default function Homepage() {
               <Button_auth onClick={handleLogout}>Log out</Button_auth>
             </div>
           )}
+      <br />
       <h1 className="text-2xl xl:text-4xl font-bold mb-8 tracking-wide drop-shadow-lg">
         Quote Generator
       </h1>
@@ -94,10 +95,14 @@ export default function Homepage() {
           <p>{error}</p>
         ) : quote ? (
           <>
-            <p className="text:sm xl:text-xl font-semibold">&quot;{quote.quote}&quot;</p>
+            <p className="text:sm xl:text-xl font-semibold">
+              &quot;{quote.quote}&quot;
+            </p>
             <p className="mt-2">
-              <span className="text:sm xl:text-xl font-bold text-red-900">Author</span> -{" "}
-              {quote.author || "Unknown"}
+              <span className="text:sm xl:text-xl font-bold text-red-900">
+                Author
+              </span>{" "}
+              - {quote.author || "Unknown"}
             </p>
             <div className="mt-4">
               <Heart
@@ -117,7 +122,7 @@ export default function Homepage() {
                     setLiked(!liked);
                     try {
                       const { createClient } = await import(
-                        "../../../utils/client"
+                        "../../../utils/supabase/client"
                       );
                       const supabase = createClient();
                       const {
