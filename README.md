@@ -41,11 +41,20 @@ It uses **Supabase** for authentication & database, and **Prisma ORM** as the AP
 - **Database:** Supabase (Postgres with RLS)
 - **Auth:** Supabase Authentication
 - **Deployment:** Vercel
+- **Flow:
+User → Frontend → API Route (Prisma) → Supabase Database → Response shown in UI
 
 ---
 
+##Architecture
 
----
+- **Frontend (Next.js + React):
+Handles the UI and user interactions (showing quotes, like button, login/signup).
+- **Backend (Next.js API routes + Prisma):
+Provides APIs like GET /api/quotes for fetching random quotes and POST /api/saved_quotes for saving them.
+- **Database (Supabase - Postgres):
+Stores users, quotes, and saved quotes.
+Authentication is managed by Supabase, while Prisma acts as the ORM for database queries.
 
 ## 🗄️ Database Schema
 
@@ -70,3 +79,33 @@ model saved_quotes {
   profileID String
   profile   profiles @relation(fields: [profileID], references: [id])
 }
+```
+
+## ⚡ Setup Instructions  
+
+1. Clone the repository:  
+```sh
+git clone https://github.com/yourusername/quotes-app.git
+cd quotes-app
+```
+2. Install dependencies:
+```
+npm install
+```
+3. Add environment variables in .env:
+```
+DATABASE_URL="your-supabase-db-url"
+DIRECT_URL="your-supabase-db-url"
+
+NEXT_PUBLIC_SUPABASE_URL="your-supabase-url"
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="your-supabase-anon-key"
+```
+4.Run Prisma migrations:
+```
+npx prisma generate
+npx prisma migrate dev
+```
+5. Start development server:
+```
+npm run dev
+```
