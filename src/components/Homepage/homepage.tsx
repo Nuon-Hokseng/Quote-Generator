@@ -209,7 +209,7 @@ export default function Homepage() {
       </div>
 
       <footer className="mt-12 text-sm text-white/70">
-        Made by <span className="text-red-900">♥</span> Anh Ah Sahav
+        Made by <span className="text-red-900">♥</span> Nuon Hokseng
       </footer>
     </div>
   );
