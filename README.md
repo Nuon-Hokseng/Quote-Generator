@@ -41,18 +41,18 @@ It uses **Supabase** for authentication & database, and **Prisma ORM** as the AP
 - **Database:** Supabase (Postgres with RLS)
 - **Auth:** Supabase Authentication
 - **Deployment:** Vercel
-- **Flow:
+- **Flow**:
 User → Frontend → API Route (Prisma) → Supabase Database → Response shown in UI
 
 ---
 
-##Architecture
+## 🧑‍💻Architecture
 
-- **Frontend (Next.js + React):
+- **Frontend (Next.js + React)**:
 Handles the UI and user interactions (showing quotes, like button, login/signup).
-- **Backend (Next.js API routes + Prisma):
+- **Backend (Next.js API routes + Prisma)**:
 Provides APIs like GET /api/quotes for fetching random quotes and POST /api/saved_quotes for saving them.
-- **Database (Supabase - Postgres):
+- **Database (Supabase - Postgres)**:
 Stores users, quotes, and saved quotes.
 Authentication is managed by Supabase, while Prisma acts as the ORM for database queries.
 
