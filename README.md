@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📖 Quotes App
 
-## Getting Started
+A full-stack web application that lets users **sign up, fetch random quotes, and save their favorite ones**.  
+It uses **Supabase** for authentication & database, and **Prisma ORM** as the API layer.  
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🔑 **Authentication**
+  - User signup & login powered by Supabase Auth.
+  - Only signed-in users can save quotes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 💬 **Quotes API**
+  - Fetch random quotes from the database.
+  - Optimized random selection (avoids `ORDER BY RANDOM()` overhead).
+  - API built using Prisma ORM.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- ❤️ **Favorites**
+  - Signed-in users can click the heart button to save quotes.
+  - Saved quotes are linked to the user’s profile via `UUID`.
 
-## Learn More
+- 🛡️ **Database Security**
+  - Supabase Row-Level Security (RLS) enabled.
+  - Policies ensure:
+    - Anyone can read public quotes.
+    - Only authenticated users can insert saved quotes.
+  - Public schema is accessible for signup & API reads.
 
-To learn more about Next.js, take a look at the following resources:
+- 🎨 **Frontend**
+  - Built with React + TailwindCSS.
+  - Custom gradient button with hover animations.
+  - Heart icon turns red when clicked.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🏗️ Tech Stack
 
-## Deploy on Vercel
+- **Frontend:** React, TailwindCSS, Lucide Icons
+- **Backend/API:** Next.js (API routes), Prisma ORM
+- **Database:** Supabase (Postgres with RLS)
+- **Auth:** Supabase Authentication
+- **Deployment:** Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+---
+
+## 🗄️ Database Schema
+
+```prisma
+model profiles {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  username String
+  saved    saved_quotes[]
+}
+
+model myQuote {
+  id     String @id @default(uuid())
+  quote  String
+  author String
+}
+
+model saved_quotes {
+  id        String   @id @default(uuid())
+  quote     String
+  author    String
+  profileID String
+  profile   profiles @relation(fields: [profileID], references: [id])
+}
