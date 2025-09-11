@@ -16,7 +16,7 @@ export default function Homepage() {
       setMessage("Signup successful! Redirecting...");
       setTimeout(() => {
         router.push("/"); 
-      }, 3000);
+      }, 1000);
     } else {
       setMessage(`Signup failed: ${result.message}`);
     }

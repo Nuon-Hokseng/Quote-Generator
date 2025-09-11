@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "../../../utils/server";
+import { createClient } from "../../../utils/supabase/server";
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
@@ -14,14 +14,6 @@ export async function login(formData: FormData) {
   });
 
   if (error) return { success: false, message: error.message };
-
-  // Check if email is verified
-  if (data.user && !data.user.email_confirmed_at) {
-    return {
-      success: false,
-      message: "Please confirm your email before signing in.",
-    };
-  }
 
   return { success: true, user: data.user };
 }

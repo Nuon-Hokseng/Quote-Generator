@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "../../../utils/server";
+import { createClient } from "../../../utils/supabase/server";
 export async function signup(formData: FormData) {
   const data = {
     username: formData.get("name") as string,
@@ -9,9 +9,14 @@ export async function signup(formData: FormData) {
   };
 
   if (
-    ["vathana", "vong vathana", "Vong Vathana", "Vathana", "vath", "Vath"].includes(
-      data.username
-    )
+    [
+      "vathana",
+      "vong vathana",
+      "Vong Vathana",
+      "Vathana",
+      "vath",
+      "Vath",
+    ].includes(data.username)
   ) {
     return {
       success: false,

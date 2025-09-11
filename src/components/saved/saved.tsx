@@ -20,7 +20,7 @@ export default function Saved() {
 
   useEffect(() => {
     async function fetchSavedQuotes() {
-      const { createClient } = await import("../../../utils/client");
+      const { createClient } = await import("../../../utils/supabase/client");
       const supabase = createClient();
       const {
         data: { user },
@@ -95,7 +95,7 @@ export default function Saved() {
   // Remove quote handler
   async function handleRemove(id: string) {
     setRemovingId(id);
-    const { createClient } = await import("../../../utils/client");
+    const { createClient } = await import("../../../utils/supabase/client");
     const supabase = createClient();
     const { error } = await supabase.from("saved_quotes").delete().eq("id", id);
     if (!error) {
@@ -134,7 +134,6 @@ export default function Saved() {
                 onClick={() => handleRemove(q.id)}
                 disabled={removingId === q.id}
               >
-                {/* Bin SVG icon */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
